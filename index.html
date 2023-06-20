@@ -36,6 +36,20 @@
     .body {
       text-align: center;
     }
+	/* Media query for mobile devices */
+    @media (max-width: 480px) {
+      #itemsContainer {
+        font-size: 30px;
+      }
+
+      .accordion-header {
+        padding: 30px;
+      }
+
+      .accordion-content {
+        padding: 30px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -52,7 +66,7 @@
   <div id="loadingIndicator" class="loading">تحميل المعلومات...</div>
 
   <script>
-    const itemsPerPage = 20; // Number of items to display per page
+    const itemsPerPage = 30; // Number of items to display per page
     let currentPage = 1; // Current page number
     let data = []; // Array to store all the data
 
