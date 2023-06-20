@@ -21,12 +21,14 @@
     .accordion-header {
       background-color: lightblue;
       cursor: pointer;
-      padding: 10px;
+	  padding-top: 3vw;
+      padding-bottom: 3vw;
     }
 
     .accordion-content {
       display: none;
-      padding: 10px;
+	  padding-top: 3vw;
+      padding-bottom: 3vw;
     }
 
     .accordion-content.active {
@@ -36,20 +38,7 @@
     .body {
       text-align: center;
     }
-	/* Media query for mobile devices */
-    @media (max-width: 480px) {
-      #itemsContainer {
-        font-size: 30px;
-      }
 
-      .accordion-header {
-        padding: 30px;
-      }
-
-      .accordion-content {
-        padding: 30px;
-      }
-    }
   </style>
 </head>
 <body>
