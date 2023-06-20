@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<html dir="rtl">
+<head>
+  <title>سين جيم - موسوعة سؤال و جواب </title>
+  <style>
+    #itemsContainer {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .loading {
+      text-align: center;
+      font-style: italic;
+    }
+
+    div#accordion {
+      text-align: center;
+    }
+
+    .accordion-header {
+      background-color: lightblue;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .accordion-content {
+      display: none;
+      padding: 10px;
+    }
+
+    .accordion-content.active {
+      display: block;
+    }
+
+    .body {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align: center;">
+    <a href="https://play.google.com/store/apps/details?id=com.free.wiki.seenjeem" target="_blank">
+      <img src="https://raw.githubusercontent.com/arkfalak/seenjeem/main/seenjeemlogo.png" alt="seenjeem Logo" style="display: inline-block; max-width: 60px; max-height: 60px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+    </a>
+  </div>
+  <br/>
+  <h1 style="text-align: center;">سين جيم - موسوعة سؤال و جواب </h1>
+
+  <div id="itemsContainer"></div>
+  <div id="accordion"></div>
+  <div id="loadingIndicator" class="loading">تحميل المعلومات...</div>
+
+  <script>
+    const itemsPerPage = 20; // Number of items to display per page
+    let currentPage = 1; // Current page number
+    let data = []; // Array to store all the data
+
+    const itemsContainer = document.getElementById('itemsContainer');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const accordion = document.getElementById('accordion');
+
+    // Fetch the data from the JSON file
+    fetch('https://seenjeem-2f9b5-default-rtdb.europe-west1.firebasedatabase.app/website/questionss.json')
+      .then(response => response.json())
+      .then(jsonData => {
+        data = jsonData;
+
+        // Render initial items
+        renderItems();
+
+        // Detect scroll event
+        window.addEventListener('scroll', () => {
+          if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            // Reached the bottom of the page, load more items
+            currentPage++;
+            renderItems();
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+    // Render items
+    function renderItems() {
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+
+      // Check if there are more items to display
+      if (start >= data.length) {
+        return;
+      }
+
+      // Display loading indicator
+      loadingIndicator.style.display = 'block';
+
+      // Iterate over the questions for the current page
+      Object.keys(data).slice(start, end).forEach(key => {
+        const question = data[key].question;
+        const answer = data[key].answer;
+
+        // Create the accordion elements
+        const header = document.createElement('h3');
+        header.classList.add('accordion-header');
+        header.textContent = question;
+
+        const content = document.createElement('div');
+        content.classList.add('accordion-content');
+        content.innerHTML = `<p> <span>${answer}</span></p>`;
+
+        // Add event listener to toggle the content on header click
+        header.addEventListener('click', () => {
+          content.classList.toggle('active');
+        });
+
+        // Append the accordion elements to the accordion container
+        accordion.appendChild(header);
+        accordion.appendChild(content);
+
+        // Hide loading indicator
+        loadingIndicator.style.display = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
